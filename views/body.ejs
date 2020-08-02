@@ -1,10 +1,77 @@
 <%- include("header") -%>
 <body>
-  <input id="text-area" type="text" />
+  <h1 class="title">Voice-Notes</h1>
+  <div class="container-fluid">
+    <form action="/add" method="POST">
+      <textarea id="text-area" type="text" name="notecontent"></textarea>
+      <p style="text-align: center;">
+        Live : <span id="interim_span" style="color: grey;"></span>
+      </p>
 
-  <button id="start-record">Record Audio</button>
-  <button id="stop-record">Stop Recording</button>
-  <button>Add</button>
+      <div class="button__wrapper">
+        <button
+          class="btn btn-primary"
+          id="start-record"
+          type="button"
+          onclick="toggleStartStop()"
+        >
+          Record Audio
+        </button>
 
+        <button class="btn btn-primary" type="submit">Add</button>
+      </div>
+    </form>
+
+    <!-- NOTES -->
+    <div class="saved-notes">
+      <h2>Saved Notes</h2>
+      <ul>
+        <% noteslist.forEach(note => { %>
+        <li>
+          <p class="note-content"><%= note.content %></p>
+
+          <div class="delete">
+            <form action="/delete" method="post">
+              <input
+                type="checkbox"
+                name="checkbox"
+                value="<%=note._id%>"
+                onChange="this.form.submit()"
+                id="cross<%=note._id%>"
+                style="display: none;"
+                autocomplete="off"
+              />
+              <label
+                for="cross<%=note._id%>"
+                style="cursor: pointer;"
+                data-toggle="tooltip"
+                title="Delete note"
+              >
+                <i class="fas fa-times" style="color: red;"></i
+              ></label>
+            </form>
+          </div>
+        </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
   <script src="js/index.js"></script>
+
+  <!-- BOOTSTRAP js -->
+  <script
+    src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"
+  ></script>
 </body>
