@@ -12,8 +12,11 @@ recognition.onend = reset;
 
 var noteContent = '';
 var notetextarea = document.getElementById('text-area');
+recognition.onstart = function () {
+  // console.log('started');
+};
 
-// speech recognition service result
+//=====speech recognition service result=====//
 recognition.onresult = function (event) {
   for (var i = event.resultIndex; i < event.results.length; ++i) {
     var final = '';
@@ -26,7 +29,7 @@ recognition.onresult = function (event) {
     } else {
       interim += event.results[i][0].transcript;
     }
-    console.log(final);
+    // console.log(final);
 
     interim_span.innerHTML = interim;
   }
@@ -46,4 +49,16 @@ function toggleStartStop() {
     recognizing = true;
     document.getElementById('start-record').innerHTML = 'Click to Stop';
   }
+}
+
+//====speech synthesis=====//
+function listen(text) {
+  // console.log(text);
+  var speech = new SpeechSynthesisUtterance();
+  speech.text = text;
+  speech.volume = 0.8;
+  speech.rate = 1;
+  speech.pitch = 1;
+
+  window.speechSynthesis.speak(speech);
 }
